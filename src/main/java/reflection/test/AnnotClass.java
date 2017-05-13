@@ -4,7 +4,7 @@ import reflection.annotations.Call;
 import reflection.annotations.Handler;
 
 /**
- * Created by sergey.romashchenko on 3/29/2017.
+
  */
 @Handler(name = "MyTestClassWithMethods")
 public class AnnotClass {
