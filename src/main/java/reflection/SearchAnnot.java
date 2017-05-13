@@ -1,7 +1,7 @@
 package reflection;
 
 /**
- * Created by sergey.romashchenko on 3/14/2017.
+
  */
 
 import reflection.annotations.Call;
