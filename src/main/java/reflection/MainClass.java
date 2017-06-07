@@ -5,34 +5,28 @@ package reflection;
  */
 
 import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
 public class MainClass {
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-        Set<String> paths = new HashSet<>();
-        String[] classPathElements = System
-                .getProperty("java.class.path")
-                .split(System.getProperty("path.separator"));
+    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
+        String cpElements = System.getProperty("java.class.path");
 
-        for(String element : classPathElements) {
-            PathCollector.collect(Paths.get(element), paths);
+        Set<String> loadedClasses = ExecContainer.ExecContainer(PathCollect.coll(cpElements));
+
+        Set<String> annotClasses = SearchAnnot.getAnnotatedClass(loadedClasses);
+
+        Map<String, Set<String>> annotMethodsAndClass = SearchAnnot.getAnnotatedMethodsWithArgs(annotClasses);
+
+
+        System.out.println("~~~~!$!$!$!$~~~~~~ ");
+        for (Map.Entry<String, Set<String>> entry : annotMethodsAndClass.entrySet()) {
+            System.out.println(entry.getKey());
+            System.out.println(entry.getValue().toString());
         }
+        System.out.println("~~~~!$!$!$!$~~~~~~ ");
 
-        ClassLoader cl = MainClass.class.getClassLoader();
-
-        for(String clazz : paths)
-            try {
-                Class someClass = cl.loadClass(clazz);
-                SearchAnnot.printAnnotatedClass(someClass);
-//                SearchAnnot.printAnnotatedMethods(someClass);
-            } catch (Throwable ex) { //ERROR is possible
-                System.out.println("!#!#!# Error class " + cl.getClass().getName() + " not loaded !#!#!#");
-//                ex.printStackTrace();
-            }
+        SearchAnnot.invokeAnnotatedMethods(annotMethodsAndClass);
     }
 }

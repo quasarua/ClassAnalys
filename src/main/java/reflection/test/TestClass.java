@@ -11,10 +11,10 @@ public class TestClass {
 
     @Call
     public void myPublicTestMethod(String s) {
-        System.out.println("YES it IS an ANNOTATED method " + s);
+        System.out.println("YES it IS an ANNOTATED method ");
     }
 
-    public void badRobot(String s) {
-        System.out.println("Method IS NOT ANNOTATED " + s);
+    public void badRobot() {
+        System.out.println("Method IS NOT ANNOTATED ");
     }
 }
